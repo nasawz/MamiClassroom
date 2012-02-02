@@ -32,43 +32,25 @@
     if (success) {
         char *errorMsg;
         NSString *createSQL = @""\
-        "CREATE TABLE IF NOT EXISTS gride (                "\
-        "id integer,                                       "\
-        "title varchar(150),                               "\
-        "cover varchar(150),                               "\
-        "content text,                                     "\
-        "type_id integer,                                  "\
-        "\"order\" integer,                                "\
-        "isFav integer,                                    "\
-        "PRIMARY KEY (\"id\")                              "\
-        ");                                                "\
-        "                                                  "\
-        "                                                  "\
-        "CREATE TABLE IF NOT EXISTS life (                 "\
-        "id integer,                                       "\
-        "title varchar(150),                               "\
-        "cover varchar(150),                               "\
-        "content text,                                     "\
-        "type_id integer,                                  "\
-        "\"order\" integer,                                "\
-        "isFav integer,                                    "\
-        "PRIMARY KEY (\"id\")                              "\
-        ");                                                "\
-        "                                                  "\
-        "                                                  "\
-        "CREATE TABLE IF NOT EXISTS gridetype (            "\
-        "id integer,                                       "\
-        "title varchar(150),                               "\
-        "\"order\" integer,                                "\
-        "PRIMARY KEY (\"id\")                              "\
-        ");                                                "\
-        "                                                  "\
-        "CREATE TABLE IF NOT EXISTS lifetype (             "\
-        "id integer,                                       "\
-        "title varchar(150),                               "\
-        "\"order\" integer,                                "\
-        "PRIMARY KEY (\"id\")                              "\
-        ");                                                "\
+        "CREATE TABLE IF NOT EXISTS mamisubjectdetail (         "\
+        "id integer NOT NULL,                                   "\
+        "title varchar(150) NOT NULL,                           "\
+        "cover varchar(150) NOT NULL,                           "\
+        "content text NOT NULL,                                 "\
+        "type_id integer NOT NULL,                              "\
+        "order integer NOT NULL,                                "\
+        "PRIMARY KEY (\"id\")                                   "\
+        ");                                                     "\
+        "                                                       "\
+        "                                                       "\
+        "CREATE TABLE IF NOT EXISTS mamisubject (               "\
+        "id integer NOT NULL,                                   "\
+        "title varchar(150) NOT NULL,                           "\
+        "cover varchar(150) NOT NULL,                           "\
+        "order integer NOT NULL,                                "\
+        "content text,                                          "\
+        "PRIMARY KEY (\"id\")                                   "\
+        ");                                                     "\
         "";
         if (sqlite3_exec([db sqliteHandle], [createSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
             [db close];
