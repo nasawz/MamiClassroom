@@ -19,7 +19,7 @@
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:DB_NAME];
 	
-//    NSLog(@"%@",writableDBPath);
+    NSLog(@"%@",writableDBPath);
     db = [[FMDatabase databaseWithPath:writableDBPath] retain];
     if ([db open]) {
         [db setShouldCacheStatements:YES];
@@ -33,21 +33,22 @@
         char *errorMsg;
         NSString *createSQL = @""\
         "CREATE TABLE IF NOT EXISTS mamisubjectdetail (         "\
-        "id integer NOT NULL,                                   "\
-        "title varchar(150) NOT NULL,                           "\
-        "cover varchar(150) NOT NULL,                           "\
-        "content text NOT NULL,                                 "\
-        "type_id integer NOT NULL,                              "\
-        "order integer NOT NULL,                                "\
+        "id integer,                                   "\
+        "title varchar(150),                           "\
+        "cover varchar(150),                           "\
+        "content text,                                 "\
+        "type_id integer,                              "\
+        "\"order\" integer,                                "\
+        "isFav integer,                                    "\
         "PRIMARY KEY (\"id\")                                   "\
         ");                                                     "\
         "                                                       "\
         "                                                       "\
         "CREATE TABLE IF NOT EXISTS mamisubject (               "\
-        "id integer NOT NULL,                                   "\
-        "title varchar(150) NOT NULL,                           "\
-        "cover varchar(150) NOT NULL,                           "\
-        "order integer NOT NULL,                                "\
+        "id integer,                                   "\
+        "title varchar(150),                           "\
+        "cover varchar(150),                           "\
+        "\"order\" integer,                                "\
         "content text,                                          "\
         "PRIMARY KEY (\"id\")                                   "\
         ");                                                     "\

@@ -172,8 +172,8 @@
 - (void)getDataWithType:(NSInteger)type {
     NSString *path;
     if (type == 0) {
-        request = @"gridetypes";
-        path = @"mami/gridetypes/";
+        request = @"mamisubjects";
+        path = @"mami/mamisubjects/";
     }else{
         request = @"lifetypes";
         path = @"mami/lifetypes/";

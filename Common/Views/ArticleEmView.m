@@ -27,6 +27,7 @@
         [self setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"back.png"]]];
         
         imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [imageView setContentMode:UIViewContentModeScaleAspectFit];
         textView = [[UITextView alloc] initWithFrame:frame];
         [textView setBackgroundColor:[UIColor clearColor]];
         [textView setFont:[UIFont systemFontOfSize:16.0f]];
@@ -86,9 +87,16 @@
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image
 {
     imageView.image = image;
-    [imageView setSize:image.size];
+    float ww;
+    float hh;
+    if (image.size.width != 320) {
+        ww = 320;
+        hh = image.size.height * (320/image.size.width);
+    }
     
-    [textView setFrame:CGRectMake(0, image.size.height, 320, textView.frame.size.height - image.size.height)];
+    [imageView setSize:CGSizeMake(ww, hh)];
+    
+    [textView setFrame:CGRectMake(0, hh, 320, textView.frame.size.height - hh)];
 }
 
 - (void)openUrl:(NSString *)url {
@@ -112,7 +120,7 @@
         
     }else{
         Gride * gride = [Gride grideWithId:[articleID intValue]];
-        [textView setText:gride.content];
+        [textView setText:[NSString stringWithFormat:@"%@\n%@",gride.title,gride.content]];
         [self setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/site_media/%@",ROOT_DOMAIN,gride.cover]]];
         if (gride.isFav == 1) {
             [self addFav];
@@ -137,7 +145,7 @@
             Gride * gride = [Gride grideWithJsonDictionary:[(NSArray *)obj objectAtIndex:0]];
             [gride insertDB];
             
-            [textView setText:gride.content];
+            [textView setText:[NSString stringWithFormat:@"%@\n%@",gride.title,gride.content]];
             [self setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/site_media/%@",ROOT_DOMAIN,gride.cover]]];
             [self removeFav];
 

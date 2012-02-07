@@ -40,7 +40,7 @@
     DBManager * dbManager = [[DBManager alloc] init];
     [dbManager initDatabase];
     Gride * grid;
-    FMResultSet *interRs = [[dbManager getDatabase] executeQuery:@"SELECT * FROM gride WHERE id = ?",[NSNumber numberWithInt:aId]];
+    FMResultSet *interRs = [[dbManager getDatabase] executeQuery:@"SELECT * FROM mamisubjectdetail WHERE id = ?",[NSNumber numberWithInt:aId]];
     if ([interRs next]) {
         grid = [Gride initWithFMResultSet:interRs];
     }
@@ -78,7 +78,7 @@
     DBManager * dbManager = [[DBManager alloc] init];
     [dbManager initDatabase];
     
-    NSString *insertSQL = @"INSERT OR REPLACE INTO gride(id,cover,content,title,type_id,\"order\",isFav) VALUES (?,?,?,?,?,?,?)";        
+    NSString *insertSQL = @"INSERT OR REPLACE INTO mamisubjectdetail(id,cover,content,title,type_id,\"order\",isFav) VALUES (?,?,?,?,?,?,?)";        
 	[[dbManager getDatabase] executeUpdate:insertSQL, [NSNumber numberWithInt:grideId],cover,content,title,[NSNumber numberWithInt:type_id],[NSNumber numberWithInt:order],[NSNumber numberWithInt:isFav]];
 	if ([[dbManager getDatabase] hadError]) {
 		NSLog(@"Err %d: %@", [[dbManager getDatabase] lastErrorCode], [[dbManager getDatabase] lastErrorMessage]);
@@ -94,7 +94,7 @@
     DBManager * dbManager = [[DBManager alloc] init];
     [dbManager initDatabase];
 	
-    NSString *querySQL = @"SELECT count(id) as cc FROM gride WHERE id = ?";
+    NSString *querySQL = @"SELECT count(id) as cc FROM mamisubjectdetail WHERE id = ?";
     
     
     FMResultSet *rs = [[dbManager getDatabase] executeQuery:querySQL, [NSNumber numberWithInt:grideId]];
@@ -115,7 +115,7 @@
 	BOOL success = YES;
     DBManager * dbManager = [[DBManager alloc] init];
     [dbManager initDatabase];
-	[[dbManager getDatabase] executeUpdate:@"DELETE FROM gride WHERE id = ?", [NSNumber numberWithInt:grideId]];
+	[[dbManager getDatabase] executeUpdate:@"DELETE FROM mamisubjectdetail WHERE id = ?", [NSNumber numberWithInt:grideId]];
 	if ([[dbManager getDatabase] hadError]) {
 		NSLog(@"Err %d: %@", [[dbManager getDatabase] lastErrorCode], [[dbManager getDatabase] lastErrorMessage]);
 		success = NO;

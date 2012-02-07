@@ -11,8 +11,13 @@
 #import "FavoriteViewController.h"
 #import "SettingViewController.h"
 #import "GrideType.h"
+#import "UIImageView+WebCache.h"
 
-
+#if TARGET_IPHONE_SIMULATOR
+#define     ROOT_DOMAIN      @"127.0.0.1:8000"
+#else
+#define     ROOT_DOMAIN      @"tumo.im"
+#endif
 
 @implementation RootViewController
 @synthesize shareView;
@@ -22,8 +27,11 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        gridTypeView = [[ESFlowLayoutView alloc] initWithFrame:CGRectMake(20, 265, 280, 145)];
-        gridTypeView.padding = 8.0f;
+        gridTypeView = [[UITableView alloc] initWithFrame:CGRectMake(20, 265, 280, 145)];
+        gridTypeView.dataSource = self;
+        gridTypeView.delegate = self;
+        [gridTypeView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        //        gridTypeView.padding = 8.0f;
         //        [gridTypeView setBackgroundColor:[UIColor redColor]];
         [self.view addSubview:gridTypeView];
         
@@ -49,7 +57,7 @@
         [btnGride setBackgroundImage:[UIImage imageNamed:@"btn_bg2.png"] forState:UIControlStateHighlighted];
         [btnGride setBackgroundImage:[UIImage imageNamed:@"btn_bg2.png"] forState:UIControlStateSelected];
         [btnGride setBackgroundImage:[UIImage imageNamed:@"btn_bg2.png"] forState:(UIControlStateHighlighted|UIControlStateSelected)];
-        [btnGride setTitle:@"安孕旅途" forState:UIControlStateNormal];
+        [btnGride setTitle:@"育儿画廊" forState:UIControlStateNormal];
         [btnGride setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [btnGride.titleLabel setFont:[UIFont systemFontOfSize:12.0f]];
         [btnGride addTarget:self action:@selector(changeType:) forControlEvents:UIControlEventTouchDown];
@@ -124,7 +132,7 @@
  输入参数: 
  ***********************************************************************************************************/
 - (void)initializeData:(NSArray *)arr {
-    [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"gridetypes"];
+    [[NSUserDefaults standardUserDefaults] setObject:arr forKey:@"mamisubjects"];
 }
 /***********************************************************************************************************
  * MARK: 初始化
@@ -136,22 +144,19 @@
     
     gridetypes = [arr retain];
     
-    for (UIView * vv in gridTypeView.subviews) {
-        [vv removeFromSuperview];
-        [vv release];
-    }
+    [gridTypeView reloadData];
     
-    UIImage * img = [UIImage imageNamed:@"btn_bg1.png"];
-    UIImage * img2 = [UIImage imageNamed:@"btn_bg1b.png"];
+    //    for (UIView * vv in gridTypeView.subviews) {
+    //        [vv removeFromSuperview];
+    //        [vv release];
+    //    }
+    //    
+    //    UIImage * img = [UIImage imageNamed:@"btn_bg1.png"];
+    //    UIImage * img2 = [UIImage imageNamed:@"btn_bg1b.png"];
     for (int i = 0; i < [arr count]; i++) {
         
         GrideType * gridType = [GrideType grideTypeWithJsonDictionary:[arr objectAtIndex:i]];
         [gridType insertDB];
-        
-        UIButton * btn = [self typeButtonWith:img highlight:img2 leftCapWidth:6.0f title:gridType.title];
-        [btn setTag:i];
-        [btn addTarget:self action:@selector(openGrideArticle:) forControlEvents:UIControlEventTouchUpInside];
-        [gridTypeView addSubview:btn];
     }
 }
 /***********************************************************************************************************
@@ -162,7 +167,7 @@
  ***********************************************************************************************************/
 - (void)getDataWithType:(NSInteger)type {
     
-    NSArray * arr = [[NSUserDefaults standardUserDefaults] objectForKey:@"gridetypes"];
+    NSArray * arr = [[NSUserDefaults standardUserDefaults] objectForKey:@"mamisubjects"];
     if (arr != nil) {
         [self initData:arr];
     }
@@ -172,11 +177,11 @@
 }
 - (void)typesDidLoad:(IEVTClient*)c obj:(id)obj {
     if (!c.hasError) {
-        if ([c.request isEqualToString:@"gridetypes"]) {
+        if ([c.request isEqualToString:@"mamisubjects"]) {
             gridetypes = [(NSArray *)obj retain];
             
             
-            NSArray * arr = [[NSUserDefaults standardUserDefaults] objectForKey:@"gridetypes"];
+            NSArray * arr = [[NSUserDefaults standardUserDefaults] objectForKey:@"mamisubjects"];
             if (arr != nil) {
                 
                 if (![gridetypes isEqualToArray:arr]) {
@@ -200,9 +205,10 @@
     client = nil;
 }
 
-- (void)openGrideArticle:(UIButton *)btn {
-    NSString * pk = [[gridetypes objectAtIndex:btn.tag] objectForKey:@"pk"];
-    ArticleViewController * articleVC = [[ArticleViewController alloc] initWithType:pk Module:@"grides"];
+
+- (void)openGrideArticle:(NSInteger)index {
+    NSString * pk = [[gridetypes objectAtIndex:index] objectForKey:@"pk"];
+    ArticleViewController * articleVC = [[ArticleViewController alloc] initWithType:pk Module:@"mamisubjects"];
     [self.navigationController pushViewController:articleVC animated:YES];
     //    [articleVC release];
 }
@@ -339,4 +345,31 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [gridetypes count];
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell * cell;
+    cell = [tableView dequeueReusableCellWithIdentifier:@"subcell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"subcell"];
+    }
+    
+    GrideType * gridType = [GrideType grideTypeWithJsonDictionary:[gridetypes objectAtIndex:[indexPath row]]];
+//    [gridType insertDB];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    cell.textLabel.text = gridType.title;
+    [cell.imageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/site_media/%@",ROOT_DOMAIN,gridType.cover]] placeholderImage:[UIImage imageNamed:@"placeholderImage.jpg"]];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//    NSLog(@"%@",[NSString stringWithFormat:@"http://%@/site_media/%@",ROOT_DOMAIN,gridType.cover]);
+    return cell;
+}
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0f;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self openGrideArticle:[indexPath row]];
+}
 @end

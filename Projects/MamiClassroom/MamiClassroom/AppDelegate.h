@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RootViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    UINavigationController * navigationController;
+    RootViewController * rootViewController;
+}
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, retain) UINavigationController * navigationController;
 
++ (AppDelegate*)getAppDelegate;
 @end

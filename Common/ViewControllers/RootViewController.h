@@ -12,7 +12,7 @@
 #import "IEVTClient.h"
 #import "TKAlertCenter.h"
 
-@interface RootViewController : UIViewController {
+@interface RootViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
     UIImageView * buttonBar;
     UIView*       bannerView;
     UIButton * btnGride;
@@ -25,7 +25,8 @@
  
     UIImageView * introView;
     
-    ESFlowLayoutView * gridTypeView;
+//    ESFlowLayoutView * gridTypeView;
+    UITableView * gridTypeView;
     
     
     NSArray * gridetypes;

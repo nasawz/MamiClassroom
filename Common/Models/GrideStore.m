@@ -17,7 +17,7 @@
         dbManager = [[DBManager alloc] init];
         [dbManager initDatabase];
         
-        NSString *querySQL = @"SELECT id FROM gridetype order by \"order\" desc";
+        NSString *querySQL = @"SELECT id FROM mamisubject order by \"order\" desc";
         
         
         FMResultSet *rs = [[dbManager getDatabase] executeQuery:querySQL];
@@ -26,7 +26,7 @@
             
             NSMutableArray * grideids = [[NSMutableArray alloc] init];
             
-            FMResultSet *interRs = [[dbManager getDatabase] executeQuery:@"SELECT id as cc FROM gride WHERE type_id = ? and isFav = 1",[NSNumber numberWithInt:[rs intForColumnIndex:0]]];
+            FMResultSet *interRs = [[dbManager getDatabase] executeQuery:@"SELECT id as cc FROM mamisubjectdetail WHERE type_id = ? and isFav = 1",[NSNumber numberWithInt:[rs intForColumnIndex:0]]];
             while ([interRs next]) {
                 [grideids addObject:[NSNumber numberWithInt:[interRs intForColumnIndex:0]]];
             }
@@ -42,7 +42,7 @@
 }
 
 - (void)reload {
-    NSString *querySQL = @"SELECT id FROM gridetype order by \"order\" desc";
+    NSString *querySQL = @"SELECT id FROM mamisubject order by \"order\" desc";
     
     
     FMResultSet *rs = [[dbManager getDatabase] executeQuery:querySQL];
@@ -51,7 +51,7 @@
         
         NSMutableArray * grideids = [[NSMutableArray alloc] init];
         
-        FMResultSet *interRs = [[dbManager getDatabase] executeQuery:@"SELECT id as cc FROM gride WHERE type_id = ? and isFav = 1",[NSNumber numberWithInt:[rs intForColumnIndex:0]]];
+        FMResultSet *interRs = [[dbManager getDatabase] executeQuery:@"SELECT id as cc FROM mamisubjectdetail WHERE type_id = ? and isFav = 1",[NSNumber numberWithInt:[rs intForColumnIndex:0]]];
         while ([interRs next]) {
             [grideids addObject:[NSNumber numberWithInt:[interRs intForColumnIndex:0]]];
         }
@@ -73,7 +73,7 @@
     DBManager * dbManager = [[DBManager alloc] init];
     [dbManager initDatabase];
 	
-    NSString *querySQL = @"SELECT count(id) as cc FROM gride WHERE id = ?";
+    NSString *querySQL = @"SELECT count(id) as cc FROM mamisubjectdetail WHERE id = ?";
     
     
     FMResultSet *rs = [[dbManager getDatabase] executeQuery:querySQL, [NSNumber numberWithInt:aGrideId]];

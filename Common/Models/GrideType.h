@@ -13,13 +13,17 @@
 @interface GrideType : NSObject{
 	int    typeId;
     NSString *  title;
+    NSString *  cover;
     int    order;
+    NSString *  content;
     
 }
 
 @property (nonatomic, assign) int typeId;
 @property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *cover;
 @property (nonatomic, assign) int order;
+@property (nonatomic, retain) NSString *content;
 
 
 + (GrideType*)grideTypeWithId:(int)typeId;

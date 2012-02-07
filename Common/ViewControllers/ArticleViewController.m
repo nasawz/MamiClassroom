@@ -197,7 +197,7 @@
     adFrame.size = GAD_SIZE_320x50;
     bannerView = [[GADBannerView alloc] initWithFrame:adFrame];
     bannerView.rootViewController = self;
-    bannerView.adUnitID = @"a14f28f16245cbf";
+    bannerView.adUnitID = @"a14f2f9680bd23a";
     bannerView.delegate = self;
     [self.view addSubview:bannerView];
     
@@ -210,7 +210,8 @@
     [request addKeyword:@"Health"];
     [request addKeyword:@"Baby"];
     [request addKeyword:@"Milk powder"];
-    [request addKeyword:@"Health"];
+    [request addKeyword:@"classroom"];
+    [request addKeyword:@"student"];
     
     [bannerView loadRequest:request];
 }
