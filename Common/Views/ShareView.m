@@ -9,8 +9,8 @@
 #import "ShareView.h"
 
 
-#define Sina_APPKey @"3838941951"
-#define Sina_APPSecret @"2ca0b8230ba9898569035b29398fae99"
+#define Sina_APPKey @"875578770"
+#define Sina_APPSecret @"27f62caede2ca074ef11db130e50bc54"
 
 @implementation ShareView
 @synthesize weibo;
@@ -65,7 +65,7 @@
 	weibo.delegate = self;
     
     if (weibo.isUserLoggedin) {
-        [weibo showSendViewWithWeiboText:@"我正在使用#安孕#来学习怀孕期间需要注意的各个事项，你也来试试吧～ http://tumo.im/app/anyu/" andImage:[UIImage imageNamed:@"headPic.png"] andDelegate:self];
+        [weibo showSendViewWithWeiboText:@"我正在使用#妈妈课堂#来学习教育孩子的各个事项和育儿的实用常识，你也来试试吧～ http://tumo.im/app/mamiclassroom/" andImage:[UIImage imageNamed:@"headPic.png"] andDelegate:self];
     }else{
         [weibo startAuthorize];
     }
@@ -87,14 +87,14 @@
 //		[self.navigationController pushViewController:serviceTableViewController animated:YES];
 //		[serviceTableViewController release];
         NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                     @"http://tumo.im/app/anyu/",@"url",
-                                     @"安孕",@"name",
+                                     @"http://tumo.im/app/mamiclassroom/",@"url",
+                                     @"妈妈课堂",@"name",
                                      @"访问我们",@"action_name",
-                                     @"http://tumo.im/app/anyu/",@"action_link",
+                                     @"http://tumo.im/app/mamiclassroom/",@"action_link",
                                      @"来自TUMO(兔毛)",@"description",
-                                     @"欢迎使用安孕",@"caption",
-                                     @"http://tumo.im/site_media/iphoneapp/anyu180.png",@"image",
-                                     @"我正在使用#安孕#来学习怀孕期间需要注意的各个事项，你也来试试吧～ http://tumo.im/app/anyu/",@"message",
+                                     @"欢迎使用妈妈课堂",@"caption",
+                                     @"http://tumo.im/site_media/iphoneapp/mamiclassroom180.png",@"image",
+                                     @"我正在使用#妈妈课堂#来学习教育孩子的各个事项和育儿的实用常识，你也来试试吧～ http://tumo.im/app/mamiclassroom/",@"message",
                                      nil];
         //        [self.renren dialogInNavigation:@"feed" andParams:params andDelegate:self];
         [self.renren dialog:@"feed" andParams:params andDelegate:self];

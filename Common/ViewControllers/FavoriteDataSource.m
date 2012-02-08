@@ -50,6 +50,7 @@
     int grideid = [[[[grideStore.grideArr objectAtIndex:[indexPath section]] objectForKey:@"grideids"] objectAtIndex:[indexPath row]] intValue];
     Gride * gride = [Gride grideWithId:grideid];
     cell.textLabel.text = gride.title;
+    [cell.textLabel setFont:[UIFont systemFontOfSize:16.0f]];
     return cell;
 }
 
