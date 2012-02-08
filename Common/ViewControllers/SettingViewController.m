@@ -90,8 +90,8 @@
 // Launches the Mail application on the device.
 -(void)launchMailAppOnDevice
 {
-	NSString *recipients = @"mailto:first@example.com?cc=second@example.com,third@example.com&subject=Hello from California!";
-	NSString *body = @"&body=It is raining in sunny California!";
+	NSString *recipients = @"mailto:service@tumo.im&subject=[妈妈课堂]意见反馈";
+	NSString *body = @"&body=";
 	
 	NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
 	email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -104,7 +104,7 @@
 	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
 	picker.mailComposeDelegate = self;
 	
-	[picker setSubject:@"[安孕]意见反馈"];
+	[picker setSubject:@"[妈妈课堂]意见反馈"];
 	
     
 	// Set up recipients
@@ -155,7 +155,7 @@
     }
     
     if (indexPath.row == 1) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://userpub.itunes.apple.com/WebObjects/MZUserPublishing.woa/wa/addUserReview?id=495095814&type=Purple+Software"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://userpub.itunes.apple.com/WebObjects/MZUserPublishing.woa/wa/addUserReview?id=501270135&type=Purple+Software"]];
     }
     
     if (indexPath.row == 0) {
